@@ -23,17 +23,19 @@ public class DataAnalyserService {
 	private JdbcTemplate jdbcTemplate;
 
 	public List<Map<String, String>> getEarliestArtDatesByPlaceOfOrigin() {
+		log.info("Running getEarliestArtDatesByPlaceOfOrigin method of service");
 		String sql = "SELECT place_of_origin, MIN(date_start) AS earliest_start_date FROM public.datum GROUP BY place_of_origin";
 		return runQuery(sql);
 	}
 	
 	public List<Map<String, String>> getMostPopularStyleTitles() {
+		log.info("Running getMostPopularStyleTitles method of service");		
 		String sql = "SELECT style_title, COUNT(*) AS popularity FROM public.datum GROUP BY style_title ";
 		return runQuery(sql);
 	}
 
 
-	private List<Map<String, String>> runQuery(String qry) {
+	protected List<Map<String, String>> runQuery(String qry) {
 		return jdbcTemplate.query(qry,
 				new RowMapper<Map<String, String>>() {
 					@Override
@@ -52,6 +54,7 @@ public class DataAnalyserService {
 	}
 
 	public List<Map<String, String>> getAllArtWorkTypeTitles() {
+		log.info("Running getAllArtWorkTypeTitles method of service");		
 		String sql = "SELECT artwork_type_title, COUNT(*) AS num_rows FROM public.datum GROUP BY artwork_type_title";
 		return runQuery(sql);
 	}
